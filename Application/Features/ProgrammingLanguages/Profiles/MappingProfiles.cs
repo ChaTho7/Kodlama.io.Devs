@@ -21,30 +21,15 @@ namespace Application.Features.ProgrammingLanguages.Profiles
             CreateMap<ProgrammingLanguage, CreateProgrammingLanguageCommand>().ReverseMap();
             CreateMap<ProgrammingLanguage, DeleteProgrammingLanguageCommand>().ReverseMap();
             CreateMap<UpdateProgrammingLanguageCommand, ProgrammingLanguage>()
-                .AfterMap((src, dest, ctx) =>
-                {
-                    if (ctx.Items.TryGetValue("OldName", out var oldName))
-                    {
-                        dest.Name = (string)oldName;
-                    }
-
-                    if (ctx.Items.TryGetValue("NewName", out var newName))
-                    {
-                        dest.Name = (string)newName;
-                    }
-                }).ReverseMap();
+                .ForMember(c => c.Name, opt => opt.MapFrom(c => c.NewProgrammingLanguage.Name))
+                .ReverseMap();
 
             CreateMap<ProgrammingLanguage, CreatedProgrammingLanguageDto>().ReverseMap();
             CreateMap<ProgrammingLanguage, DeletedProgrammingLanguageDto>().ReverseMap();
             CreateMap<ProgrammingLanguage, UpdatedProgrammingLanguageDto>()
-                .ForMember(c => c.NewName, opt => opt.MapFrom(c => c.Name))
-                .AfterMap((src, dest, ctx) =>
-                {
-                    if (ctx.Items.TryGetValue("OldName", out var oldName))
-                    {
-                        dest.OldName = (string)oldName;
-                    }
-                }).ReverseMap();
+                .ForMember(c => c.NewName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(c => c.OldName, opt => opt.MapFrom((src, dest, _, ctx) => ctx.Items["OldName"]))
+                .ReverseMap();
 
             CreateMap<IPaginate<ProgrammingLanguage>, ProgrammingLanguageListModel>().ReverseMap();
             CreateMap<ProgrammingLanguage, ProgrammingLanguageListDto>().ReverseMap();

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage;
 using FluentValidation;
 
-namespace Application.Features.ProgrammingLanguages.Commands.CreateProgrammingLanguage
+namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage
 {
-    public class DeleteProgrammingLanguageCommandValidator:AbstractValidator<DeleteProgrammingLanguageCommand>
+    public class DeleteProgrammingLanguageCommandValidator : AbstractValidator<DeleteProgrammingLanguageCommand>
     {
         public DeleteProgrammingLanguageCommandValidator()
         {

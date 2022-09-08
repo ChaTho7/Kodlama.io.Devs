@@ -40,9 +40,12 @@ namespace Application.Features.ProgrammingLanguages.Rules
             if (programmingLanguage == null) throw new BusinessException("Requested programmingLanguage doesn't exists.");
         }
 
-        public void ProgrammingLanguageShouldExistWhenUpdated(ProgrammingLanguage? programmingLanguage)
+        public async Task<ProgrammingLanguage> ProgrammingLanguageShouldExistWhenUpdated(int id)
         {
-            if (programmingLanguage == null) throw new BusinessException("Requested programmingLanguage doesn't exists.");
+            IPaginate<ProgrammingLanguage> result = await _programmingLanguageRepository.GetListAsync(b => b.Id == id);
+            if (result == null) throw new BusinessException("Requested programmingLanguage doesn't exists.");
+
+            return result.Items.First();
         }
 
     }

@@ -15,8 +15,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
     public class UpdateProgrammingLanguageCommand : IRequest<UpdatedProgrammingLanguageDto>
     {
         public int Id { get; set; }
-        public string OldName { get; set; }
-        public string NewName { get; set; }
+        public ProgrammingLanguage NewProgrammingLanguage { get; set; }
 
         public class UpdateProgrammingLanguageCommandHandler : IRequestHandler<UpdateProgrammingLanguageCommand, UpdatedProgrammingLanguageDto>
         {
@@ -34,20 +33,19 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
 
             public async Task<UpdatedProgrammingLanguageDto> Handle(UpdateProgrammingLanguageCommand request, CancellationToken cancellationToken)
             {
-                ProgrammingLanguage mappedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request,
-                    options => options.Items.Add("OldName", request.OldName));
-
-                _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenUpdated(mappedProgrammingLanguage);
-                await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenUpdated(request.NewName);
-
-                ProgrammingLanguage toBeUpdatedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request,
-                    options => options.Items.Add("NewName", request.NewName));
+                string oldName = _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenUpdated(request.Id)
+                    .Result.Name;
+                await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenUpdated(
+                    request.NewProgrammingLanguage.Name);
 
 
-                ProgrammingLanguage updatedProgrammingLanguage = await _programmingLanguageRepository.UpdateAsync(toBeUpdatedProgrammingLanguage);
+                ProgrammingLanguage mappedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request);
+                ProgrammingLanguage updatedProgrammingLanguage = await _programmingLanguageRepository
+                    .UpdateAsync(mappedProgrammingLanguage);
 
-                UpdatedProgrammingLanguageDto updatedProgrammingLanguageDto = _mapper.Map<UpdatedProgrammingLanguageDto>(updatedProgrammingLanguage,
-                    options => options.Items.Add("OldName", request.OldName));
+                UpdatedProgrammingLanguageDto updatedProgrammingLanguageDto = _mapper
+                    .Map<UpdatedProgrammingLanguageDto>(updatedProgrammingLanguage,
+                    options => options.Items.Add("OldName", oldName));
 
                 return updatedProgrammingLanguageDto;
             }
