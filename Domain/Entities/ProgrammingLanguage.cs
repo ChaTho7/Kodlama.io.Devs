@@ -13,7 +13,7 @@ namespace Domain.Entities
 
         public ProgrammingLanguage()
         {
-            
+
         }
 
         public ProgrammingLanguage(int id, string name) : this()
@@ -21,6 +21,5 @@ namespace Domain.Entities
             Id = id;
             Name = name;
         }
-
     }
 }

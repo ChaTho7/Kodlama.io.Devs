@@ -43,6 +43,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
                 ProgrammingLanguage toBeUpdatedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request,
                     options => options.Items.Add("NewName", request.NewName));
 
+
                 ProgrammingLanguage updatedProgrammingLanguage = await _programmingLanguageRepository.UpdateAsync(toBeUpdatedProgrammingLanguage);
 
                 UpdatedProgrammingLanguageDto updatedProgrammingLanguageDto = _mapper.Map<UpdatedProgrammingLanguageDto>(updatedProgrammingLanguage,

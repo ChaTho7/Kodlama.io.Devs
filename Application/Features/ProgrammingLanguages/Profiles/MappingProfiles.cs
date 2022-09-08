@@ -20,8 +20,8 @@ namespace Application.Features.ProgrammingLanguages.Profiles
         {
             CreateMap<ProgrammingLanguage, CreateProgrammingLanguageCommand>().ReverseMap();
             CreateMap<ProgrammingLanguage, DeleteProgrammingLanguageCommand>().ReverseMap();
-            CreateMap<UpdateProgrammingLanguageCommand, ProgrammingLanguage>().AfterMap(
-                (src, dest, ctx) =>
+            CreateMap<UpdateProgrammingLanguageCommand, ProgrammingLanguage>()
+                .AfterMap((src, dest, ctx) =>
                 {
                     if (ctx.Items.TryGetValue("OldName", out var oldName))
                     {
@@ -32,21 +32,19 @@ namespace Application.Features.ProgrammingLanguages.Profiles
                     {
                         dest.Name = (string)newName;
                     }
-                });
+                }).ReverseMap();
 
             CreateMap<ProgrammingLanguage, CreatedProgrammingLanguageDto>().ReverseMap();
             CreateMap<ProgrammingLanguage, DeletedProgrammingLanguageDto>().ReverseMap();
-            CreateMap<ProgrammingLanguage, UpdatedProgrammingLanguageDto>().AfterMap(
-                (src, dest, ctx) =>
+            CreateMap<ProgrammingLanguage, UpdatedProgrammingLanguageDto>()
+                .ForMember(c => c.NewName, opt => opt.MapFrom(c => c.Name))
+                .AfterMap((src, dest, ctx) =>
                 {
-                    dest.NewName = src.Name;
-
                     if (ctx.Items.TryGetValue("OldName", out var oldName))
                     {
                         dest.OldName = (string)oldName;
                     }
-
-                });
+                }).ReverseMap();
 
             CreateMap<IPaginate<ProgrammingLanguage>, ProgrammingLanguageListModel>().ReverseMap();
             CreateMap<ProgrammingLanguage, ProgrammingLanguageListDto>().ReverseMap();
