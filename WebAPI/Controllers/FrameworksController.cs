@@ -20,6 +20,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Add([FromBody] CreateFrameworkCommand createFrameworkCommand)
         {
             CreatedFrameworkDto result = await Mediator.Send(createFrameworkCommand);
+
             return Created("", result);
         }
 
@@ -43,7 +44,6 @@ namespace WebAPI.Controllers
             FrameworkListModel result = await Mediator.Send(getListByDynamicModelQuery);
 
             return Ok(result);
-
         }
 
         [HttpGet("{Id}")]
@@ -58,6 +58,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateFrameworkCommand updateFrameworkCommand)
         {
             UpdatedFrameworkDto result = await Mediator.Send(updateFrameworkCommand);
+
             return Created("", result);
         }
 
@@ -65,6 +66,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Delete([FromBody] DeleteFrameworkCommand deleteFrameworkCommand)
         {
             DeletedFrameworkDto result = await Mediator.Send(deleteFrameworkCommand);
+
             return Created("", result);
         }
     }

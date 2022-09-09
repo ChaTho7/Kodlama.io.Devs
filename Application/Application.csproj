@@ -7,8 +7,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Folder Include="Features\Auth\Dtos\" />
 		<Folder Include="Features\Frameworks\Constants\" />
 		<Folder Include="Features\ProgrammingLanguages\Constants\" />
+		<Folder Include="Features\Users\Commands\" />
+		<Folder Include="Features\Users\Constants\" />
+		<Folder Include="Features\Users\Dtos\" />
+		<Folder Include="Features\Users\Models\" />
+		<Folder Include="Features\Users\Rules\" />
+		<Folder Include="Features\Users\Queries\" />
+		<Folder Include="Features\Users\Profiles\" />
 	</ItemGroup>
 
 	<ItemGroup>
