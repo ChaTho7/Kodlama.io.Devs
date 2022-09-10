@@ -9,13 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Rules;
+using Core.Application.Pipelines.Authorization;
 
 namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLanguage
 {
-    public class UpdateProgrammingLanguageCommand : IRequest<UpdatedProgrammingLanguageDto>
+    public class UpdateProgrammingLanguageCommand : IRequest<UpdatedProgrammingLanguageDto>, ISecuredRequest
     {
         public int Id { get; set; }
         public ProgrammingLanguage NewProgrammingLanguage { get; set; }
+        public string[] Roles { get; } = { "Admin", "Moderator" };
 
         public class UpdateProgrammingLanguageCommandHandler : IRequestHandler<UpdateProgrammingLanguageCommand, UpdatedProgrammingLanguageDto>
         {
