@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Auth.Rules;
 using Application.Features.Frameworks.Rules;
+using Application.Features.GithubProfiles.Rules;
 using Application.Features.ProgrammingLanguages.Rules;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
@@ -29,6 +30,7 @@ namespace Application
 
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<FrameworkBusinessRules>();
+            services.AddScoped<GithubProfileBusinessRules>();
             services.AddScoped<AuthBusinessRules>();
 
             services.AddHttpContextAccessor();

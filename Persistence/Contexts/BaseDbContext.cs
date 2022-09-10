@@ -18,6 +18,7 @@ namespace Persistence.Contexts
         public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
         public DbSet<Framework> Frameworks { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<GithubProfile> GithubProfiles { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -99,6 +100,17 @@ namespace Persistence.Contexts
                 }
             };
             modelBuilder.Entity<User>().HasData(userEntitySeeds);
+
+
+            modelBuilder.Entity<GithubProfile>(a =>
+            {
+                a.ToTable("GithubProfiles").HasKey(k => k.Id);
+                a.Property(p => p.Id).HasColumnName("Id");
+                a.Property(p => p.UserId).HasColumnName("UserId");
+                a.Property(p => p.ProfileUrl).HasColumnName("ProfileUrl");
+
+                a.HasOne(p => p.User);
+            });
 
 
             modelBuilder.Entity<OperationClaim>(a =>
