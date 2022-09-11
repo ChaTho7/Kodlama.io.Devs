@@ -9,13 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Features.GithubProfiles.Dtos;
 using Application.Features.GithubProfiles.Rules;
+using Core.Application.Pipelines.Authorization;
 
 namespace Application.Features.GithubProfiles.Commands.UpdateGithubProfile
 {
-    public class UpdateGithubProfileCommand : IRequest<UpdatedGithubProfileDto>
+    public class UpdateGithubProfileCommand : IRequest<UpdatedGithubProfileDto>, ISecuredByIdentityRequest
     {
         public int UserId { get; set; }
         public GithubProfile NewGithubProfile { get; set; }
+        public string[] SuperRoles { get; } = { "Admin" };
+        public string[] Identities { get; set; }
 
         public class UpdateGithubProfileCommandHandler : IRequestHandler<UpdateGithubProfileCommand, UpdatedGithubProfileDto>
         {

@@ -38,6 +38,7 @@ namespace Application
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationByIdentityBehavior<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

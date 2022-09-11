@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class GithubProfilesController : BaseController
     {
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] CreateGithubProfileCommand createGithubProfileCommand)
         {
             CreatedGithubProfileDto result = await Mediator.Send(createGithubProfileCommand);
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             return Created("", result);
         }
 
-        [HttpGet]
+        [HttpGet("GetList")]
         public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
         {
             GetListGithubProfileQuery getListGithubProfileQuery = new() { PageRequest = pageRequest };
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
             return Ok(githubProfileGetByUserIdDto);
         }
 
-        [HttpPut()]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] UpdateGithubProfileCommand updateGithubProfileCommand)
         {
             UpdatedGithubProfileDto result = await Mediator.Send(updateGithubProfileCommand);
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
             return Created("", result);
         }
 
-        [HttpDelete()]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete([FromBody] DeleteGithubProfileCommand deleteGithubProfileCommand)
         {
             DeletedGithubProfileDto result = await Mediator.Send(deleteGithubProfileCommand);

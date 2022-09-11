@@ -19,9 +19,9 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
                                         RequestHandlerDelegate<TResponse> next)
     {
-        List<string>? roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
+        List<string> roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
 
-        if (roleClaims == null) throw new AuthorizationException("Claims not found.");
+        if (roleClaims.Count == 0) throw new AuthorizationException("Claims not found.");
 
         bool isNotMatchedARoleClaimWithRequestRoles =
             roleClaims.FirstOrDefault(roleClaim => request.Roles.Any(role => role == roleClaim)).IsNullOrEmpty();

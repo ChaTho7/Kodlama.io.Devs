@@ -9,7 +9,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : BaseController
     {
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
         {
             AccessToken result = await Mediator.Send(loginCommand);
@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterCommand registerCommand)
         {
             AccessToken result = await Mediator.Send(registerCommand);

@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class FrameworksController : BaseController
     {
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] CreateFrameworkCommand createFrameworkCommand)
         {
             CreatedFrameworkDto result = await Mediator.Send(createFrameworkCommand);
@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             return Created("", result);
         }
 
-        [HttpGet]
+        [HttpGet("GetList")]
         public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
         {
             GetListFrameworkQuery getListFrameworkQuery = new() { PageRequest = pageRequest };
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
             return Ok(frameworkGetByIdDto);
         }
 
-        [HttpPut()]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] UpdateFrameworkCommand updateFrameworkCommand)
         {
             UpdatedFrameworkDto result = await Mediator.Send(updateFrameworkCommand);
@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
             return Created("", result);
         }
 
-        [HttpDelete()]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete([FromBody] DeleteFrameworkCommand deleteFrameworkCommand)
         {
             DeletedFrameworkDto result = await Mediator.Send(deleteFrameworkCommand);
