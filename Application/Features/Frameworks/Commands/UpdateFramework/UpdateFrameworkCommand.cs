@@ -14,7 +14,6 @@ namespace Application.Features.Frameworks.Commands.UpdateFramework
 {
     public class UpdateFrameworkCommand : IRequest<UpdatedFrameworkDto>
     {
-        public int Id { get; set; }
         public Framework NewFramework { get; set; }
 
         public class UpdateFrameworkCommandHandler : IRequestHandler<UpdateFrameworkCommand, UpdatedFrameworkDto>
@@ -35,17 +34,14 @@ namespace Application.Features.Frameworks.Commands.UpdateFramework
 
             public async Task<UpdatedFrameworkDto> Handle(UpdateFrameworkCommand request, CancellationToken cancellationToken)
             {
-                Framework oldFramework = _frameworkBusinessRules.FrameworkShouldExistWhenUpdated(request.Id).Result;
+                Framework oldFramework = _frameworkBusinessRules.FrameworkShouldExistWhenUpdated(request.NewFramework.Id).Result;
                 await _frameworkBusinessRules.FrameworkNameCanNotBeDuplicatedWhenUpdated(
                     request.NewFramework.Name);
 
                 ProgrammingLanguage? newProgrammingLanguage = await _programmingLanguageRepository.GetAsync(
                     p => p.Id == request.NewFramework.ProgrammingLanguageId);
 
-
-                Framework mappedFramework = _mapper.Map<Framework>(request);
-
-                Framework updatedFramework = await _frameworkRepository.UpdateAsync(mappedFramework);
+                Framework updatedFramework = await _frameworkRepository.UpdateAsync(request.NewFramework);
                 updatedFramework.ProgrammingLanguage = newProgrammingLanguage;
 
                 UpdatedFrameworkDto updatedFrameworkDto = _mapper.Map<UpdatedFrameworkDto>(updatedFramework,

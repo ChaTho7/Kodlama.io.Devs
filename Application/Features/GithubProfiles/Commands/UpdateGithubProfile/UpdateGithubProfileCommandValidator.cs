@@ -11,8 +11,8 @@ namespace Application.Features.GithubProfiles.Commands.UpdateGithubProfile
     {
         public UpdateGithubProfileCommandValidator()
         {
-            RuleFor(c => c.UserId).NotEmpty();
-            RuleFor(c => c.NewGithubProfile.ProfileUrl).NotEmpty();
+            RuleFor(c => c.Identity).NotEmpty();
+            RuleFor(c => c.NewGithubProfile.UserId).NotEmpty();
         }
     }
 }

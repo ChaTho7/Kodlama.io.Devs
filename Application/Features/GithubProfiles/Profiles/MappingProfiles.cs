@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.GithubProfiles.Commands.CreateGithubProfile;
-using Application.Features.GithubProfiles.Commands.UpdateGithubProfile;
 using Application.Features.GithubProfiles.Dtos;
 using Application.Features.GithubProfiles.Models;
 using Core.Persistence.Paging;
@@ -18,10 +17,6 @@ namespace Application.Features.GithubProfiles.Profiles
         public MappingProfiles()
         {
             CreateMap<GithubProfile, CreateGithubProfileCommand>().ReverseMap();
-            CreateMap<UpdateGithubProfileCommand, GithubProfile>()
-                .ForMember(c => c.Id, opt => opt.MapFrom((src, dest, _, ctx) => ctx.Items["Id"]))
-                .ForMember(c => c.ProfileUrl, opt => opt.MapFrom(c => c.NewGithubProfile.ProfileUrl))
-                .ReverseMap();
 
             CreateMap<GithubProfile, CreatedGithubProfileDto>().ReverseMap();
             CreateMap<GithubProfile, DeletedGithubProfileDto>().ReverseMap();

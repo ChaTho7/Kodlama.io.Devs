@@ -20,10 +20,6 @@ namespace Application.Features.Frameworks.Profiles
         {
             CreateMap<Framework, CreateFrameworkCommand>().ReverseMap();
             CreateMap<Framework, DeleteFrameworkCommand>().ReverseMap();
-            CreateMap<UpdateFrameworkCommand, Framework>()
-                .ForMember(c => c.Name, opt => opt.MapFrom(c => c.NewFramework.Name))
-                .ForMember(c => c.ProgrammingLanguageId, opt => opt.MapFrom(c => c.NewFramework.ProgrammingLanguageId))
-                .ReverseMap();
 
             CreateMap<Framework, CreatedFrameworkDto>()
                 .ForMember(c => c.ProgrammingLanguageName, opt => opt.MapFrom(c => c.ProgrammingLanguage.Name))

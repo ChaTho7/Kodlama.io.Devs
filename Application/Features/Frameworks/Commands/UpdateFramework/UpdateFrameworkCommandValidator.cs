@@ -11,9 +11,7 @@ namespace Application.Features.Frameworks.Commands.UpdateFramework
     {
         public UpdateFrameworkCommandValidator()
         {
-            RuleFor(c => c.Id).NotEmpty();
-            RuleFor(c => c.NewFramework.Name).NotEmpty();
-            RuleFor(c => c.NewFramework.ProgrammingLanguageId).NotEmpty();
+            RuleFor(x => x.NewFramework.Id).NotEmpty();
         }
     }
 }

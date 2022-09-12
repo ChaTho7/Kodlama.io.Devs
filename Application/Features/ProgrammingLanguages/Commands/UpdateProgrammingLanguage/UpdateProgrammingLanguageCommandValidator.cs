@@ -12,7 +12,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
     {
         public UpdateProgrammingLanguageCommandValidator()
         {
-            RuleFor(c => c.Id).NotEmpty();
+            RuleFor(c => c.NewProgrammingLanguage.Id).NotEmpty();
             RuleFor(c => c.NewProgrammingLanguage.Name).NotEmpty();
         }
     }

@@ -15,10 +15,9 @@ namespace Application.Features.GithubProfiles.Commands.UpdateGithubProfile
 {
     public class UpdateGithubProfileCommand : IRequest<UpdatedGithubProfileDto>, ISecuredByIdentityRequest
     {
-        public int UserId { get; set; }
         public GithubProfile NewGithubProfile { get; set; }
+        public int Identity { get; set; }
         public string[] SuperRoles { get; } = { "Admin" };
-        public string[] Identities { get; set; }
 
         public class UpdateGithubProfileCommandHandler : IRequestHandler<UpdateGithubProfileCommand, UpdatedGithubProfileDto>
         {
@@ -36,16 +35,11 @@ namespace Application.Features.GithubProfiles.Commands.UpdateGithubProfile
             public async Task<UpdatedGithubProfileDto> Handle(UpdateGithubProfileCommand request, CancellationToken cancellationToken)
             {
                 GithubProfile oldGithubProfile = await _githubProfileBusinessRules
-                    .GitHubProfileShouldExistWhenUpdate(request.UserId);
+                    .GitHubProfileShouldExistWhenUpdate(request.Identity);
 
-                GithubProfile mappedGithubProfile = _mapper.Map<GithubProfile>(request,
-                    options =>
-                    {
-                        options.Items.Add("Id", oldGithubProfile.Id);
-                    }
-                    );
+                request.NewGithubProfile.Id = oldGithubProfile.Id;
 
-                GithubProfile updatedGithubProfile = await _githubProfileRepository.UpdateAsync(mappedGithubProfile);
+                GithubProfile updatedGithubProfile = await _githubProfileRepository.UpdateAsync(request.NewGithubProfile);
                 UpdatedGithubProfileDto updatedGithubProfileDto = _mapper.Map<UpdatedGithubProfileDto>(updatedGithubProfile,
                     options =>
                     {

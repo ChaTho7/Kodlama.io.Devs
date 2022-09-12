@@ -26,9 +26,9 @@ public class AuthorizationByIdentityBehavior<TRequest, TResponse> : IPipelineBeh
 
         bool isNotMatchedARoleClaimWithRequestRoles =
             roleClaims.FirstOrDefault(roleClaim => request.SuperRoles.Any(superRole => superRole == roleClaim)).IsNullOrEmpty();
-        bool isMatchedIdentityClaimWithRequestIdentities = request.Identities.Any(identity => identity == identityClaim);
+        bool isMatchedIdentityClaimWithRequestIdentity = request.Identity.ToString() == identityClaim;
 
-        if (!isMatchedIdentityClaimWithRequestIdentities)
+        if (!isMatchedIdentityClaimWithRequestIdentity)
         {
             if (isNotMatchedARoleClaimWithRequestRoles) throw new AuthorizationException("You are not authorized.");
         }

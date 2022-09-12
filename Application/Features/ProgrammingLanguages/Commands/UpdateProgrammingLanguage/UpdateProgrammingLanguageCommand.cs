@@ -15,7 +15,6 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
 {
     public class UpdateProgrammingLanguageCommand : IRequest<UpdatedProgrammingLanguageDto>, ISecuredRequest
     {
-        public int Id { get; set; }
         public ProgrammingLanguage NewProgrammingLanguage { get; set; }
         public string[] Roles { get; } = { "Admin", "Moderator" };
 
@@ -35,13 +34,13 @@ namespace Application.Features.ProgrammingLanguages.Commands.UpdateProgrammingLa
 
             public async Task<UpdatedProgrammingLanguageDto> Handle(UpdateProgrammingLanguageCommand request, CancellationToken cancellationToken)
             {
-                string oldName = _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenUpdated(request.Id)
+                string oldName = _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenUpdated(request.NewProgrammingLanguage.Id)
                     .Result.Name;
                 await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenUpdated(
                     request.NewProgrammingLanguage.Name);
 
 
-                ProgrammingLanguage mappedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request);
+                ProgrammingLanguage mappedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request.NewProgrammingLanguage);
                 ProgrammingLanguage updatedProgrammingLanguage = await _programmingLanguageRepository
                     .UpdateAsync(mappedProgrammingLanguage);
 
