@@ -15,8 +15,7 @@ using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Application.Services.AuthService;
 
 namespace Application
 {
@@ -33,9 +32,6 @@ namespace Application
             services.AddScoped<GithubProfileBusinessRules>();
             services.AddScoped<AuthBusinessRules>();
 
-            services.AddHttpContextAccessor();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationByIdentityBehavior<,>));
@@ -43,6 +39,8 @@ namespace Application
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+            services.AddScoped<IAuthService, AuthManager>();
 
             return services;
 

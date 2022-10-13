@@ -1,5 +1,4 @@
-﻿using Application.Services.Repositories;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using Application.Features.Auth.Rules;
 using Core.Security.Dtos;
 using Core.Security.Entities;
 using Core.Security.JWT;
-using Microsoft.EntityFrameworkCore;
+using Application.Services.AuthService;
 
 namespace Application.Features.Auth.Commands.Login
 {
@@ -19,16 +18,13 @@ namespace Application.Features.Auth.Commands.Login
 
         public class LoginCommandHandler : IRequestHandler<LoginCommand, AccessToken>
         {
-            private readonly IUserOperationClaimRepository _userOperationClaimRepository;
             private readonly AuthBusinessRules _authBusinessRules;
-            private readonly ITokenHelper _tokenHelper;
+            private readonly IAuthService _authService;
 
-            public LoginCommandHandler(AuthBusinessRules authBusinessRules, ITokenHelper tokenHelper,
-                IUserOperationClaimRepository userOperationClaimRepository)
+            public LoginCommandHandler(AuthBusinessRules authBusinessRules, IAuthService authService)
             {
                 _authBusinessRules = authBusinessRules;
-                _tokenHelper = tokenHelper;
-                _userOperationClaimRepository = userOperationClaimRepository;
+                _authService = authService;
             }
 
             public async Task<AccessToken> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -37,12 +33,7 @@ namespace Application.Features.Auth.Commands.Login
                 await _authBusinessRules.PasswordCheckWhenLogin(request.UserForLoginDto.Password, user.PasswordHash,
                     user.PasswordSalt);
 
-                var userOperationClaims = await _userOperationClaimRepository.GetListAsync(
-                    predicate: o => o.UserId == user.Id,
-                    include: m => m.Include(c => c.OperationClaim)
-                    );
-                var operationClaims = userOperationClaims.Items.Select(u => u.OperationClaim).ToList();
-                var accessToken = _tokenHelper.CreateToken(user, operationClaims);
+                AccessToken accessToken = await _authService.CreateAccessToken(user);
 
                 return accessToken;
             }

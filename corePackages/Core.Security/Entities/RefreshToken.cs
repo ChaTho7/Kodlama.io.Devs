@@ -18,7 +18,7 @@ public class RefreshToken : Entity
     //public bool IsRevoked => Revoked != null;
     //public bool IsActive => !IsRevoked && !IsExpired;
 
-    public virtual User User { get; set; }
+    public virtual User? User { get; set; }
 
     public RefreshToken()
     {

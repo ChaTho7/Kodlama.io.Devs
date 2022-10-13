@@ -7,7 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Features\Auth\Dtos\" />
 		<Folder Include="Features\Frameworks\Constants\" />
 		<Folder Include="Features\ProgrammingLanguages\Constants\" />
 		<Folder Include="Features\GithubProfiles\Constants\" />
